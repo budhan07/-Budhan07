@@ -1,0 +1,76 @@
+# -Budhan07
+Bss Team members data management system 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gang Team Members</title>
+  <style>
+    body { font-family: Arial; margin: 20px; background: #f4f4f4; }
+    h2 { color: #333; }
+    input, button, select { padding: 8px; margin: 5px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+    th { background-color: #333; color: white; }
+  </style>
+</head>
+<body>
+
+  <h2>🚩 गैंग टीम मेंबर जोड़ें</h2>
+  <input type="text" id="name" placeholder="नाम">
+  <input type="text" id="phone" placeholder="मोबाइल नंबर">
+  <input type="text" id="role" placeholder="पद (लीडर / मेंबर)">
+  <button onclick="addMember()">जोड़ें</button>
+
+  <h2>📋 मेंबर लिस्ट</h2>
+  <input type="text" id="search" onkeyup="searchTable()" placeholder="खोजें...">
+  <table id="memberTable">
+    <thead>
+      <tr>
+        <th>नाम</th>
+        <th>मोबाइल नंबर</th>
+        <th>पद</th>
+      </tr>
+    </thead>
+    <tbody id="dataBody"></tbody>
+  </table>
+
+  <script>
+    let members = [];
+
+    function addMember() {
+      const name = document.getElementById('name').value;
+      const phone = document.getElementById('phone').value;
+      const role = document.getElementById('role').value;
+      if (name && phone && role) {
+        members.push({ name, phone, role });
+        displayData();
+        document.getElementById('name').value = '';
+        document.getElementById('phone').value = '';
+        document.getElementById('role').value = '';
+      } else {
+        alert("सभी फील्ड भरें!");
+      }
+    }
+
+    function displayData() {
+      const body = document.getElementById('dataBody');
+      body.innerHTML = '';
+      members.forEach(member => {
+        const row = `<tr><td>${member.name}</td><td>${member.phone}</td><td>${member.role}</td></tr>`;
+        body.innerHTML += row;
+      });
+    }
+
+    function searchTable() {
+      const input = document.getElementById('search').value.toLowerCase();
+      const rows = document.querySelectorAll('#dataBody tr');
+      rows.forEach(row => {
+        const cells = row.getElementsByTagName('td');
+        const match = Array.from(cells).some(td => td.textContent.toLowerCase().includes(input));
+        row.style.display = match ? '' : 'none';
+      });
+    }
+  </script>
+
+</body>
+</html>
